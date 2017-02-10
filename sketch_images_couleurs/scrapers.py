@@ -27,7 +27,7 @@ def remove_files(keyword, p):
     erased = 0
     print("Erasing deprecated files")
     #removes anything in keyword/platform that was not previously scraped (added to p.all)
-    folder = keyword + '/' + p.name
+    folder = 'data/' + p.name
     if os.path.isdir(folder):
         #check all files in keyword/platform, erases those that do not appear in p.all
         for file in os.listdir(folder):
@@ -42,21 +42,21 @@ def download_files(keyword, p):
     down = 0
     print("Downloading new files")
     # Check existence of primary folder
-    if not os.path.exists(keyword):
-        print("Creating new directory :\t" + keyword)
-        os.makedirs(keyword)
+    if not os.path.exists("data"):
+        print("Creating new directory data" )
+        os.makedirs("data")
     # Check existence of secondary folder
-    if not os.path.exists(keyword + "/" + p.name):
-        print("Creating new directory :\t" + keyword + "/" + p.name)
-        os.makedirs(keyword + "/" + p.name)
-    folder_files = os.listdir(keyword + "/" + p.name)
+    if not os.path.exists("data/" + p.name):
+        print("Creating new directory :\t" + "data/" + p.name)
+        os.makedirs("data/" + p.name)
+    folder_files = os.listdir("data/" + p.name)
     for i in range(len(folder_files)):
         folder_files[i] = bytes(folder_files[i], 'utf-8')
     for i in range(len(p.files)):
         if p.files[i] not in folder_files:
-            # print("Downloading\t" + keyword + "/" + p.name + "/" + str(p.files[i])[2 : -1])
+            # print("Downloading\t" + "data/" + p.name + "/" + str(p.files[i])[2 : -1])
             down += 1
-            with open(bytes(keyword, 'utf-8') + b'/' + bytes(p.name, 'utf-8')  + b'/' + p.files[i], 'wb') as handle:
+            with open(bytes("data", 'utf-8') + b'/' + bytes(p.name, 'utf-8')  + b'/' + p.files[i], 'wb') as handle:
                 response = requests.get(p.all[i], stream=True)
                 if not response.ok:
                     print(response)
@@ -102,4 +102,4 @@ def scrap_all(keyword):
     print("")
     scraper(keyword, instagram)
 
-scrap_all("food")
+scrap_all("plant")
